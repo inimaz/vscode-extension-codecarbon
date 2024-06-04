@@ -16,15 +16,22 @@ import { checkIfConfigurationChanged, getInterpreterFromSetting } from './common
 import { loadServerDefaults } from './common/setup';
 import { getLSClientTraceLevel } from './common/utilities';
 import { createOutputChannel, onDidChangeConfiguration, registerCommand } from './common/vscodeapi';
+import { createTask, deleteTask } from './trackEmissionsGlobalTask';
 
 let lsClient: LanguageClient | undefined;
+
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
     // This is required to get server name and module. This should be
     // the first thing that we do in this extension.
     const serverInfo = loadServerDefaults();
     const serverName = serverInfo.name;
     const serverId = serverInfo.module;
-
+    const statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+    const DEFAULT_STATUS_BAR_TEXT = `$(zap) ${serverName}`;
+    statusBarItem.text = DEFAULT_STATUS_BAR_TEXT;
+    statusBarItem.command = `codecarbon.start`;
+    statusBarItem.tooltip = `Start CodeCarbon tracker`;
+    statusBarItem.show();
     // Setup logging
     const outputChannel = createOutputChannel(serverName);
     context.subscriptions.push(outputChannel, registerLogger(outputChannel));
@@ -70,7 +77,6 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
                 'Please use Python 3.7 or greater.',
         );
     };
-
     context.subscriptions.push(
         onDidChangePythonInterpreter(async () => {
             await runServer();
@@ -80,8 +86,23 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
                 await runServer();
             }
         }),
-        registerCommand(`${serverId}.restart`, async () => {
-            await runServer();
+        // Register commands
+        // registerCommand('codecarbon.trackEmissionsGlobalTask', createTask(vscode)),
+        // registerCommand('codecarbon.deleteTrackEmissionsGlobalTask', deleteTask(vscode)),
+        registerCommand(`${serverId}.start`, async () => {
+            await lsClient?.sendRequest('codecarbon.startTracker', {});
+            statusBarItem.text = ` $(pulse) ${serverName} (Running)`;
+            statusBarItem.command = `${serverId}.stop`;
+        }),
+        registerCommand(`${serverId}.stop`, async () => {
+            if (lsClient) {
+                statusBarItem.text = ` $(pulse) ${serverName} (Stopping)`;
+                const response = await lsClient?.sendRequest('codecarbon.stopTracker', {});
+                console.log(response);
+                statusBarItem.text = DEFAULT_STATUS_BAR_TEXT;
+                statusBarItem.command = `${serverId}.start`;
+                vscode.window.showInformationMessage(response.result);
+            }
         }),
     );
 
