@@ -1,8 +1,8 @@
 {
     "name": "codecarbon",
     "displayName": "Codecarbon",
-    "description": "Linting support for python files using `codecarbon`.",
-    "version": "2022.0.0-dev",
+    "description": "Estimate and track carbon emissions from your computer, quantify and analyze their impact.",
+    "version": "0.0.1",
     "preview": true,
     "serverInfo": {
         "name": "Codecarbon",
@@ -22,17 +22,27 @@
         "color": "#1e415e",
         "theme": "dark"
     },
+    "icon": "images/logo-round.png",
     "keywords": [
         "python",
-        "codecarbon"
+        "codecarbon",
+        "carbon",
+        "emissions",
+        "environment",
+        "sustainability",
+        "climate",
+        "impact"
     ],
     "engines": {
         "vscode": "^1.78.0"
     },
     "categories": [
         "Programming Languages",
-        "Linters",
-        "Formatters"
+        "Machine Learning",
+        "Other",
+        "Data Science",
+        "Visualization",
+        "Education"
     ],
     "extensionDependencies": [
         "ms-python.python"
@@ -118,6 +128,22 @@
                         "Notifications are shown only in the case of an error.",
                         "Notifications are shown for errors and warnings.",
                         "Notifications are show for anything that the server chooses to show."
+                    ],
+                    "scope": "machine",
+                    "type": "string"
+                },
+                "codecarbon.outputFileDir": {
+                    "default": "userHome",
+                    "description": "Where should codecarbon save the csv file containing the emissions.",
+                    "enum": [
+                        "userHome",
+                        "workspaceDirectory",
+                        "tmpDirectory"
+                    ],
+                    "enumDescriptions": [
+                        "The file will be saved in the user's home directory.",
+                        "The file will be saved in the workspace directory.",
+                        "The file will be saved in the temporary directory."
                     ],
                     "scope": "machine",
                     "type": "string"

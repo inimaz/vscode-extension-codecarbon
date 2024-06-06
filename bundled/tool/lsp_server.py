@@ -64,6 +64,7 @@ LSP_SERVER = server.LanguageServer(
 
 TOOL_MODULE = "codecarbon"
 TOOL_DISPLAY = "Codecarbon"
+OUTPUT_EMISSIONS_FILE = ".codecarbon.emissions.csv"
 # Initialize the tracker to None
 tracker = None
 
@@ -105,9 +106,10 @@ def on_command_stop(_params: Optional[Any] = None):
     global tracker
     if tracker:
         emissions = tracker.stop()
-        _initialize_tracker()
+        output_dir = _initialize_tracker()
+        response = {"emissions": emissions, "emissions_file": output_dir + "/" + OUTPUT_EMISSIONS_FILE}
         log_to_output("Emissions tracking stopped. Emissions: " + str(emissions) + " kgCO2e")
-        return emissions
+        return response
     else:
         log_to_output("Emissions tracking not started. Nothing to do here.")
 
@@ -130,6 +132,7 @@ def _get_global_defaults():
         "args": GLOBAL_SETTINGS.get("args", []),
         "importStrategy": GLOBAL_SETTINGS.get("importStrategy", "useBundled"),
         "showNotifications": GLOBAL_SETTINGS.get("showNotifications", "off"),
+        "outputFileLocation": GLOBAL_SETTINGS.get("outputFileLocation", "userHome"),
     }
 
 
@@ -210,11 +213,15 @@ def _initialize_tracker() -> utils.RunResult:
             utils.install_module("codecarbon")
         
         try:
-            global tracker                
+            global tracker
+            output_dir = _get_output_file_dir(settings)
+            log_to_output(f"Output directory: {output_dir}")              
             tracker = EmissionsTracker(
                 measure_power_secs=5,
+                output_dir=output_dir,
+                output_file= OUTPUT_EMISSIONS_FILE  
             )
-            result = utils.RunResult("Emissions tracking started.",None)
+            result = utils.RunResult("Emissions tracker initialized",None)
 
         except Exception:
             result = utils.RunResult(None, traceback.format_exc(chain=True))
@@ -222,10 +229,15 @@ def _initialize_tracker() -> utils.RunResult:
             if result.stderr:
                 log_to_output(result.stderr)
             raise
-
-    log_to_output("Started Emissions tracking")
     log_to_output(f"\r\n{result.stdout}\r\n")
-    return result
+    return output_dir
+
+def _get_output_file_dir(settings: dict) -> str:
+    output_file_dir = settings.get("outputFileDir", "userHome")
+    if output_file_dir == "cwd":
+        return settings["cwd"]
+    elif output_file_dir == "userHome":
+        return os.path.expanduser("~")
 
 # *****************************************************
 # Logging and notification.
