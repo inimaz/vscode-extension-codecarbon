@@ -1,38 +1,48 @@
 {
-    "name": "<pytool-module>",
-    "displayName": "<pytool-display-name>",
-    "description": "Linting support for python files using `<pytool-module>`.",
-    "version": "2022.0.0-dev",
+    "name": "codecarbon",
+    "displayName": "Codecarbon",
+    "description": "Estimate and track carbon emissions from your computer, quantify and analyze their impact.",
+    "version": "0.0.1",
     "preview": true,
     "serverInfo": {
-        "name": "<pytool-display-name>",
-        "module": "<pytool-module>"
+        "name": "Codecarbon",
+        "module": "codecarbon"
     },
     "publisher": "<my-publisher>",
     "license": "MIT",
-    "homepage": "https://github.com/<my-github>/<my-extension-project>",
+    "homepage": "https://github.com/inimaz/vscode-extension-codecarbon",
     "repository": {
         "type": "git",
-        "url": "https://github.com/<my-github>/<my-extension-project>.git"
+        "url": "https://github.com/inimaz/vscode-extension-codecarbon.git"
     },
     "bugs": {
-        "url": "https://github.com/<my-github>/<my-extension-project>/issues"
+        "url": "https://github.com/inimaz/vscode-extension-codecarbon/issues"
     },
     "galleryBanner": {
         "color": "#1e415e",
         "theme": "dark"
     },
+    "icon": "images/logo-round.png",
     "keywords": [
         "python",
-        "<pytool-module>"
+        "codecarbon",
+        "carbon",
+        "emissions",
+        "environment",
+        "sustainability",
+        "climate",
+        "impact"
     ],
     "engines": {
         "vscode": "^1.78.0"
     },
     "categories": [
         "Programming Languages",
-        "Linters",
-        "Formatters"
+        "Machine Learning",
+        "Other",
+        "Data Science",
+        "Visualization",
+        "Education"
     ],
     "extensionDependencies": [
         "ms-python.python"
@@ -40,12 +50,11 @@
     "capabilities": {
         "virtualWorkspaces": {
             "supported": false,
-            "description": "Virtual Workspaces are not supported with <pytool-display-name>."
+            "description": "Virtual Workspaces are not supported with Codecarbon."
         }
     },
     "activationEvents": [
-        "onLanguage:python",
-        "workspaceContains:*.py"
+        "onStartupFinished"
     ],
     "main": "./dist/extension.js",
     "scripts": {
@@ -59,12 +68,12 @@
         "lint": "eslint src --ext ts",
         "format-check": "prettier --check 'src/**/*.ts' 'build/**/*.yml' '.github/**/*.yml'",
         "test": "node ./out/test/runTest.js",
-        "vsce-package": "vsce package -o <pytool-module>.vsix"
+        "vsce-package": "vsce package -o codecarbon.vsix"
     },
     "contributes": {
         "configuration": {
             "properties": {
-                "<pytool-module>.args": {
+                "codecarbon.args": {
                     "default": [],
                     "description": "Arguments passed in. Each argument is a separate item in the array.",
                     "items": {
@@ -73,30 +82,30 @@
                     "scope": "resource",
                     "type": "array"
                 },
-                "<pytool-module>.path": {
+                "codecarbon.path": {
                     "default": [],
-                    "description": "When set to a path to <pytool-module> binary, extension will use that. NOTE: Using this option may slowdown server response time.",
+                    "description": "When set to a path to codecarbon binary, extension will use that. NOTE: Using this option may slowdown server response time.",
                     "scope": "resource",
                     "items": {
                         "type": "string"
                     },
                     "type": "array"
                 },
-                "<pytool-module>.importStrategy": {
+                "codecarbon.importStrategy": {
                     "default": "fromEnvironment",
-                    "description": "Defines where `<pytool-module>` is imported from. This setting may be ignored if `<pytool-module>.path` is set.",
+                    "description": "Defines where `codecarbon` is imported from. This setting may be ignored if `codecarbon.path` is set.",
                     "enum": [
                         "useBundled",
                         "fromEnvironment"
                     ],
                     "enumDescriptions": [
-                        "Always use the bundled version of `<pytool-module>`.",
-                        "Use `<pytool-module>` from environment, fallback to bundled version only if `<pytool-module>` not available in the environment."
+                        "Always use the bundled version of `codecarbon`.",
+                        "Use `codecarbon` from environment, fallback to bundled version only if `codecarbon` not available in the environment."
                     ],
                     "scope": "window",
                     "type": "string"
                 },
-                "<pytool-module>.interpreter": {
+                "codecarbon.interpreter": {
                     "default": [],
                     "description": "When set to a path to python executable, extension will use that to launch the server and any subprocess.",
                     "scope": "resource",
@@ -105,8 +114,8 @@
                     },
                     "type": "array"
                 },
-                "<pytool-module>.showNotifications": {
-                    "default": "off",
+                "codecarbon.showNotifications": {
+                    "default": "always",
                     "description": "Controls when notifications are shown by this extension.",
                     "enum": [
                         "off",
@@ -122,14 +131,35 @@
                     ],
                     "scope": "machine",
                     "type": "string"
+                },
+                "codecarbon.outputFileDir": {
+                    "default": "userHome",
+                    "description": "Where should codecarbon save the csv file containing the emissions.",
+                    "enum": [
+                        "userHome",
+                        "workspaceDirectory",
+                        "tmpDirectory"
+                    ],
+                    "enumDescriptions": [
+                        "The file will be saved in the user's home directory.",
+                        "The file will be saved in the workspace directory.",
+                        "The file will be saved in the temporary directory."
+                    ],
+                    "scope": "machine",
+                    "type": "string"
                 }
             }
         },
         "commands": [
             {
-                "title": "Restart Server",
-                "category": "<pytool-display-name>",
-                "command": "<pytool-module>.restart"
+                "title": "Start tracking emissions",
+                "category": "Codecarbon",
+                "command": "codecarbon.start"
+            },
+            {
+                "title": "Stop tracking emissions",
+                "category": "Codecarbon",
+                "command": "codecarbon.stop"
             }
         ]
     },
@@ -144,11 +174,11 @@
         "@types/glob": "^8.1.0",
         "@types/node": "16.x",
         "@typescript-eslint/eslint-plugin": "^6.2.1",
-        "@typescript-eslint/parser": "^6.2.1",
+        "@typescript-eslint/parser": "^6.9.1",
         "@vscode/test-electron": "^2.3.3",
-        "@vscode/vsce": "^2.20.0",
+        "@vscode/vsce": "^2.22.0",
         "eslint": "^8.46.0",
-        "glob": "^10.3.3",
+        "glob": "^10.3.10",
         "prettier": "^3.0.0",
         "typescript": "^5.1.6",
         "ts-loader": "^9.4.4",
