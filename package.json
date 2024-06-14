@@ -8,7 +8,7 @@
         "name": "Codecarbon",
         "module": "codecarbon"
     },
-    "publisher": "<my-publisher>",
+    "publisher": "codecarbon",
     "license": "MIT",
     "homepage": "https://github.com/inimaz/vscode-extension-codecarbon",
     "repository": {

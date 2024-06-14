@@ -6,11 +6,13 @@
 
 This extension allows you to track the carbon emissions of your code directly from your VsCode. It uses the [CodeCarbon](https://www.codecarbon.io/) package to estimate the carbon emissions of your code.
 
-## Demo
-
-![Demo](./images/demo.gif)
-
 ## Features
+
+-   Track the carbon emissions of your code directly from your VsCode.
+-   Start and stop the emissions tracking with a simple click.
+    ![Demo](./images/demo.gif)
+
+-   Save it into a csv file for further analysis.
 
 ## Requirements
 
