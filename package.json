@@ -2,7 +2,7 @@
     "name": "codecarbon",
     "displayName": "Codecarbon",
     "description": "Estimate and track carbon emissions from your computer, quantify and analyze their impact.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "preview": true,
     "serverInfo": {
         "name": "Codecarbon",
