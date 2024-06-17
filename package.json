@@ -67,7 +67,7 @@
         "pretest": "npm run compile-tests && npm run compile && npm run lint",
         "lint": "eslint src --ext ts",
         "format-check": "prettier --check 'src/**/*.ts' 'build/**/*.yml' '.github/**/*.yml'",
-        "test": "node ./out/test/runTest.js",
+        "test": "jest ./out/test",
         "vsce-package": "vsce package -o codecarbon.vsix"
     },
     "contributes": {
@@ -147,6 +147,12 @@
                     ],
                     "scope": "machine",
                     "type": "string"
+                },
+                "codecarbon.launchOnStartup": {
+                    "default": true,
+                    "description": "Launch the codecarbon tracker on startup.",
+                    "scope": "machine",
+                    "type": "boolean"
                 }
             }
         },
@@ -170,18 +176,20 @@
     },
     "devDependencies": {
         "@types/fs-extra": "^11.0.1",
-        "@types/vscode": "1.78.0",
         "@types/glob": "^8.1.0",
+        "@types/jest": "^29.5.12",
         "@types/node": "16.x",
+        "@types/vscode": "1.78.0",
         "@typescript-eslint/eslint-plugin": "^6.2.1",
         "@typescript-eslint/parser": "^6.9.1",
         "@vscode/test-electron": "^2.3.3",
         "@vscode/vsce": "^2.22.0",
         "eslint": "^8.46.0",
         "glob": "^10.3.10",
+        "jest": "^29.7.0",
         "prettier": "^3.0.0",
-        "typescript": "^5.1.6",
         "ts-loader": "^9.4.4",
+        "typescript": "^5.1.6",
         "webpack": "^5.88.2",
         "webpack-cli": "^5.1.4"
     }

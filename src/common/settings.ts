@@ -14,6 +14,7 @@ export interface ISettings {
     importStrategy: string;
     showNotifications: string;
     outputFileDir: string;
+    launchOnStartup: boolean;
 }
 
 export function getExtensionSettings(namespace: string, includeInterpreter?: boolean): Promise<ISettings[]> {
@@ -71,6 +72,7 @@ export async function getWorkspaceSettings(
         importStrategy: config.get<string>(`importStrategy`) ?? 'fromEnvironment',
         showNotifications: config.get<string>(`showNotifications`) ?? 'off',
         outputFileDir: config.get<string>(`outputFileDir`) ?? 'userHome',
+        launchOnStartup: config.get<boolean>(`launchOnStartup`) ?? true,
     };
     return workspaceSetting;
 }
@@ -100,6 +102,7 @@ export async function getGlobalSettings(namespace: string, includeInterpreter?: 
         importStrategy: getGlobalValue<string>(config, 'importStrategy', 'fromEnvironment'),
         showNotifications: getGlobalValue<string>(config, 'showNotifications', 'off'),
         outputFileDir: getGlobalValue<string>(config, 'outputFileDir', 'userHome'),
+        launchOnStartup: config.get<boolean>(`launchOnStartup`) ?? true,
     };
     return setting;
 }
@@ -112,6 +115,7 @@ export function checkIfConfigurationChanged(e: ConfigurationChangeEvent, namespa
         `${namespace}.importStrategy`,
         `${namespace}.showNotifications`,
         `${namespace}.outputFileLocation`,
+        `${namespace}.launchOnStartup`,
     ];
     const changed = settings.map((s) => e.affectsConfiguration(s));
     return changed.includes(true);
