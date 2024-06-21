@@ -208,9 +208,12 @@ def _initialize_tracker() -> utils.RunResult:
     with utils.substitute_attr(sys, "path", sys.path[:]):
         try:
             from codecarbon import EmissionsTracker
-        except ImportError:
-            log_to_output("Installing codecarbon...")
-            utils.install_module("codecarbon")
+        except ImportError as e:
+            # TODO: Add installation instructions.
+            # log_to_output("Installing codecarbon...")
+            log_error(f"codecarbon is not installed. Error: {traceback.format_exc(chain=True)}")
+            return utils.RunResult(None, f"codecarbon is not installed. Error: {traceback.format_exc(chain=True)}")
+            
         
         try:
             global tracker

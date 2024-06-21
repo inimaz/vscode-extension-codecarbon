@@ -92,7 +92,7 @@
                     "type": "array"
                 },
                 "codecarbon.importStrategy": {
-                    "default": "fromEnvironment",
+                    "default": "useBundled",
                     "description": "Defines where `codecarbon` is imported from. This setting may be ignored if `codecarbon.path` is set.",
                     "enum": [
                         "useBundled",
