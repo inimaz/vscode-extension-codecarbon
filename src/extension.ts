@@ -44,7 +44,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
                     const response = await installPythonPackage(interpreter.path, packageId);
                     // If install fails, show an error message
                     if (!response.installed) {
-                        vscode.window.showErrorMessage(`Failed to install ${packageName}. Error: ${response.error}`);
+                        vscode.window.showErrorMessage(`Failed to install ${packageName}. ${response.error}`);
                         return;
                     }
                     vscode.window.showInformationMessage(`Successfully installed ${packageName}`);

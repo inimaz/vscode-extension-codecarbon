@@ -39,12 +39,24 @@ export async function installPythonPackage(
     packageName: string,
 ): Promise<{ installed: boolean; error?: any }> {
     return new Promise((resolve) => {
-        exec(`${pythonPath} -m pip install ${packageName}`, (error, stdout, stderr) => {
-            if (error) {
-                resolve({ installed: false, error: error }); // Package is not installed
-            } else {
-                resolve({ installed: true }); // Package is installed
+        exec(`${pythonPath} -m pip --version`, (pipError) => {
+            if (pipError) {
+                // pip is not installed
+                resolve({
+                    installed: false,
+                    error: new Error(
+                        `${pythonPath} has no pip installed. Please install pip and try again. Or manually install the package ${packageName}`,
+                    ),
+                });
+                return;
             }
+            exec(`${pythonPath} -m pip install ${packageName}`, (error, stdout, stderr) => {
+                if (error) {
+                    resolve({ installed: false, error: error }); // Package is not installed
+                } else {
+                    resolve({ installed: true }); // Package is installed
+                }
+            });
         });
     });
 }
