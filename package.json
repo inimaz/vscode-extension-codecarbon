@@ -1,196 +1,114 @@
 {
-    "name": "codecarbon",
-    "displayName": "Codecarbon",
-    "description": "Estimate and track carbon emissions from your computer, quantify and analyze their impact.",
-    "version": "0.1.0",
-    "preview": true,
-    "serverInfo": {
-        "name": "Codecarbon",
-        "module": "codecarbon"
-    },
-    "publisher": "codecarbon",
-    "license": "MIT",
-    "homepage": "https://github.com/inimaz/vscode-extension-codecarbon",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/inimaz/vscode-extension-codecarbon.git"
-    },
-    "bugs": {
-        "url": "https://github.com/inimaz/vscode-extension-codecarbon/issues"
-    },
-    "galleryBanner": {
-        "color": "#1e415e",
-        "theme": "dark"
-    },
-    "icon": "images/logo-round.png",
-    "keywords": [
-        "python",
-        "codecarbon",
-        "carbon",
-        "emissions",
-        "environment",
-        "sustainability",
-        "climate",
-        "impact"
-    ],
-    "engines": {
-        "vscode": "^1.78.0"
-    },
-    "categories": [
-        "Programming Languages",
-        "Machine Learning",
-        "Other",
-        "Data Science",
-        "Visualization",
-        "Education"
-    ],
-    "extensionDependencies": [
-        "ms-python.python"
-    ],
-    "capabilities": {
-        "virtualWorkspaces": {
-            "supported": false,
-            "description": "Virtual Workspaces are not supported with Codecarbon."
-        }
-    },
-    "activationEvents": [
-        "onStartupFinished"
-    ],
-    "main": "./dist/extension.js",
-    "scripts": {
-        "vscode:prepublish": "npm run package",
-        "compile": "webpack",
-        "watch": "webpack --watch",
-        "package": "webpack --mode production --devtool source-map --config ./webpack.config.js",
-        "compile-tests": "tsc -p . --outDir out",
-        "watch-tests": "tsc -p . -w --outDir out",
-        "pretest": "npm run compile-tests && npm run compile && npm run lint",
-        "lint": "eslint src --ext ts",
-        "format-check": "prettier --check 'src/**/*.ts' 'build/**/*.yml' '.github/**/*.yml'",
-        "test": "jest ./out/test",
-        "vsce-package": "vsce package -o codecarbon.vsix"
-    },
-    "contributes": {
-        "configuration": {
-            "properties": {
-                "codecarbon.args": {
-                    "default": [],
-                    "description": "Arguments passed in. Each argument is a separate item in the array.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "scope": "resource",
-                    "type": "array"
-                },
-                "codecarbon.path": {
-                    "default": [],
-                    "description": "When set to a path to codecarbon binary, extension will use that. NOTE: Using this option may slowdown server response time.",
-                    "scope": "resource",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "codecarbon.importStrategy": {
-                    "default": "useBundled",
-                    "description": "Defines where `codecarbon` is imported from. This setting may be ignored if `codecarbon.path` is set.",
-                    "enum": [
-                        "useBundled",
-                        "fromEnvironment"
-                    ],
-                    "enumDescriptions": [
-                        "Always use the bundled version of `codecarbon`.",
-                        "Use `codecarbon` from environment, fallback to bundled version only if `codecarbon` not available in the environment."
-                    ],
-                    "scope": "window",
-                    "type": "string"
-                },
-                "codecarbon.interpreter": {
-                    "default": [],
-                    "description": "When set to a path to python executable, extension will use that to launch the server and any subprocess.",
-                    "scope": "resource",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "codecarbon.showNotifications": {
-                    "default": "always",
-                    "description": "Controls when notifications are shown by this extension.",
-                    "enum": [
-                        "off",
-                        "onError",
-                        "onWarning",
-                        "always"
-                    ],
-                    "enumDescriptions": [
-                        "All notifications are turned off, any errors or warning are still available in the logs.",
-                        "Notifications are shown only in the case of an error.",
-                        "Notifications are shown for errors and warnings.",
-                        "Notifications are show for anything that the server chooses to show."
-                    ],
-                    "scope": "machine",
-                    "type": "string"
-                },
-                "codecarbon.outputFileDir": {
-                    "default": "userHome",
-                    "description": "Where should codecarbon save the csv file containing the emissions.",
-                    "enum": [
-                        "userHome",
-                        "workspaceDirectory",
-                        "tmpDirectory"
-                    ],
-                    "enumDescriptions": [
-                        "The file will be saved in the user's home directory.",
-                        "The file will be saved in the workspace directory.",
-                        "The file will be saved in the temporary directory."
-                    ],
-                    "scope": "machine",
-                    "type": "string"
-                },
-                "codecarbon.launchOnStartup": {
-                    "default": true,
-                    "description": "Launch the codecarbon tracker on startup.",
-                    "scope": "machine",
-                    "type": "boolean"
-                }
-            }
+  "name": "codecarbon",
+  "displayName": "Codecarbon",
+  "description": "Estimate and track carbon emissions from your computer, quantify and analyze their impact.",
+  "version": "0.1.0",
+  "preview": true,
+  "pythonPackageInfo": {
+    "name": "Codecarbon",
+    "module": "codecarbon"
+  },
+  "publisher": "codecarbon",
+  "license": "MIT",
+  "homepage": "https://github.com/inimaz/vscode-extension-codecarbon",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/inimaz/vscode-extension-codecarbon.git"
+  },
+  "bugs": {
+    "url": "https://github.com/inimaz/vscode-extension-codecarbon/issues"
+  },
+  "galleryBanner": {
+    "color": "#1e415e",
+    "theme": "dark"
+  },
+  "icon": "images/logo-round.png",
+  "keywords": [
+    "python",
+    "codecarbon",
+    "carbon",
+    "emissions",
+    "environment",
+    "sustainability",
+    "climate",
+    "impact"
+  ],
+  "engines": {
+    "vscode": "^1.94.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Machine Learning",
+    "Other",
+    "Data Science",
+    "Visualization",
+    "Education"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "properties": {
+        "codecarbon.launchOnStartup": {
+          "default": true,
+          "description": "Launch the codecarbon tracker on startup.",
+          "scope": "machine",
+          "type": "boolean"
         },
-        "commands": [
-            {
-                "title": "Start tracking emissions",
-                "category": "Codecarbon",
-                "command": "codecarbon.start"
-            },
-            {
-                "title": "Stop tracking emissions",
-                "category": "Codecarbon",
-                "command": "codecarbon.stop"
-            }
-        ]
+        "codecarbon.interpreter": {
+          "default": [],
+          "description": "When set to a path to python executable, extension will use that to launch any python subprocess.",
+          "scope": "resource",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      }
     },
-    "dependencies": {
-        "@vscode/python-extension": "1.0.2",
-        "fs-extra": "^11.1.1",
-        "vscode-languageclient": "^8.1.0"
-    },
-    "devDependencies": {
-        "@types/fs-extra": "^11.0.1",
-        "@types/glob": "^8.1.0",
-        "@types/jest": "^29.5.12",
-        "@types/node": "16.x",
-        "@types/vscode": "1.78.0",
-        "@typescript-eslint/eslint-plugin": "^6.2.1",
-        "@typescript-eslint/parser": "^8.3.0",
-        "@vscode/test-electron": "^2.3.3",
-        "@vscode/vsce": "^2.22.0",
-        "eslint": "^9.9.1",
-        "glob": "^10.3.10",
-        "jest": "^29.7.0",
-        "prettier": "^3.0.0",
-        "ts-loader": "^9.4.4",
-        "typescript": "^5.1.6",
-        "webpack": "^5.88.2",
-        "webpack-cli": "^5.1.4"
-    }
+    "commands": [
+      {
+        "title": "Start tracking emissions",
+        "category": "Codecarbon",
+        "command": "codecarbon.start"
+      },
+      {
+        "title": "Stop tracking emissions",
+        "category": "Codecarbon",
+        "command": "codecarbon.stop"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc && cp -r src/scripts out",
+    "watch": "tsc -watch",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.1",
+    "@types/glob": "^8.1.0",
+    "@types/jest": "^29.5.12",
+    "@types/node": "16.x",
+    "@types/vscode": "1.78.0",
+    "@typescript-eslint/eslint-plugin": "^6.2.1",
+    "@typescript-eslint/parser": "^6.9.1",
+    "@vscode/test-electron": "^2.3.3",
+    "@vscode/vsce": "^2.22.0",
+    "eslint": "^8.46.0",
+    "glob": "^10.3.10",
+    "jest": "^29.7.0",
+    "prettier": "^3.0.0",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@vscode/python-extension": "1.0.2",
+    "fs-extra": "^11.1.1",
+    "vscode-languageclient": "^8.1.0"
+  }
 }
