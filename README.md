@@ -24,7 +24,6 @@ The extension uses `codecarbon` to measure the carbon emissions. This package co
 
 This extension contributes the following settings:
 
--   `codecarbon.outputFileLocation`: The location of the output file. Default is `userHome` which will generate the `.codecarbon.emissions.csv` file into the user home.
 -   `codecarbon.launchOnStartup`: If true, the extension will start tracking the emissions when you open a new window. Defaults to true.
 
 ## Contributing
