@@ -52,6 +52,8 @@ export const stopTracker = async (
         const stopProcess = pythonProcess.kill('SIGTERM');
         pythonProcess = null; // Reset `pythonProcess` to indicate it’s stopped
     }
+    // Reset the status bar to its original state
+    initializeStatusBar(statusBarItem, DEFAULT_STATUS_BAR_TEXT);
 
     if (emissions_file) {
         // Ask the user if they want to open the emissions file
@@ -66,8 +68,6 @@ export const stopTracker = async (
             vscode.window.showTextDocument(vscode.Uri.file(emissions_file));
         }
     }
-    // Reset the status bar to its original state
-    initializeStatusBar(statusBarItem, DEFAULT_STATUS_BAR_TEXT);
     return pythonProcess;
 };
 
